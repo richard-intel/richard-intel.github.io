@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>DevBlog</title>
+</head>
+
+<body>
+  <section class="section">
+    <div class="container">
+      
+<h2>
+	<div>
+		<span><a href="https:&#x2F;&#x2F;richard-intel.github.io&#x2F;">Home</a></span>
+	  <span><a href="https://richard-intel.github.io/blog/">Blog</a></span>
+	</div>
+</h2>
+<h1 class="title">
+  [Rust CLI Tool] concur
+</h1>
+<p class="subtitle"><strong>2022-09-20</strong></p>
+<p>Concur is a simple tool to help repeat commands concurrently from the terminal. It was inspired by the builtin shell command <code>repeat</code> but adds support for multithreading.</p>
+<p><a href="https://github.com/gsquire/concur">https://github.com/gsquire/concur</a></p>
+<h3 id="building">Building</h3>
+<p>If you have Rust installed, just run:</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">cargo</span><span> build</span><span style="color:#bf616a;"> --release
+</span></code></pre>
+<p>You can also install it with cargo making it available as a binary:</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">cargo</span><span> install concur
+</span></code></pre>
+<h3 id="usage">Usage</h3>
+<p>You can run it with or without threads as such:</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#65737e;"># Run a command synchronously.
+</span><span style="color:#bf616a;">concur</span><span> 10 curl https://www.rust-lang.org
+</span><span style="color:#65737e;"># Run it with threads.
+</span><span style="color:#bf616a;">concur</span><span> 10 curl https://www.rust-lang.org</span><span style="color:#bf616a;"> -j</span><span> 2
+</span><span style="color:#65737e;"># Run a command with it&#39;s own arguments.
+</span><span style="color:#bf616a;">concur</span><span> 5 ls -- -a
+</span></code></pre>
+<p>When running a command with it's own arguments, specifying two dashes before listing them allows them to be
+ignored by your program's options.</p>
+
+
+    </div>
+  </section>
+</body>
+
+</html>

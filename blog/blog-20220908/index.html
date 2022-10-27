@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>DevBlog</title>
+</head>
+
+<body>
+  <section class="section">
+    <div class="container">
+      
+<h2>
+	<div>
+		<span><a href="https:&#x2F;&#x2F;richard-intel.github.io&#x2F;">Home</a></span>
+	  <span><a href="https://richard-intel.github.io/blog/">Blog</a></span>
+	</div>
+</h2>
+<h1 class="title">
+  [Rust CLI Tool] Shuttle
+</h1>
+<p class="subtitle"><strong>2022-09-08</strong></p>
+<p>Shuttle is a serverless platform for Rust which makes it really easy to deploy your web-apps.</p>
+<p><a href="https://github.com/shuttle-hq/shuttle">https://github.com/shuttle-hq/shuttle</a></p>
+<p>Ureq's first priority is being easy for you to use. It's great for anyone who wants a low-overhead HTTP client that just gets the job done. Works very well with HTTP APIs. Its features include cookies, JSON, HTTP proxies, HTTPS, and charset decoding.</p>
+<p>Shuttle is built for productivity, reliability and performance:</p>
+<ul>
+<li>Zero-Configuration support for Rust using annotations</li>
+<li>Automatic resource provisioning (databases, caches, subdomains, etc.)</li>
+<li>First-class support for popular Rust frameworks</li>
+<li>Scalable hosting (with optional self-hosting)</li>
+</ul>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">$</span><span> cargo install cargo-shuttle
+</span><span style="color:#bf616a;">$</span><span> cargo shuttle login
+</span><span style="color:#bf616a;">$</span><span> cargo shuttle init</span><span style="color:#bf616a;"> --rocket</span><span> hello-world
+</span><span style="color:#bf616a;">$</span><span> cargo shuttle deploy
+</span><span style="color:#bf616a;">$</span><span> curl https://my-rocket-app.shuttleapp.rs/hello
+</span><span style="color:#bf616a;">$</span><span> cargo shuttle run
+</span><span style="color:#bf616a;">$</span><span> curl http://localhost:8000/hello
+</span></code></pre>
+
+
+    </div>
+  </section>
+</body>
+
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>DevBlog</title>
+</head>
+
+<body>
+  <section class="section">
+    <div class="container">
+      
+<h2>
+	<div>
+		<span><a href="https:&#x2F;&#x2F;richard-intel.github.io&#x2F;">Home</a></span>
+	  <span><a href="https://richard-intel.github.io/blog/">Blog</a></span>
+	</div>
+</h2>
+<h1 class="title">
+  [Rust CLI tool] Find &amp; replace
+</h1>
+<p class="subtitle"><strong>2022-08-18</strong></p>
+<p>sd is an intuitive find &amp; replace CLI.</p>
+<p><a href="https://github.com/chmln/sd">https://github.com/chmln/sd</a></p>
+<h3 id="comparison-to-sed">Comparison to sed</h3>
+<p>While sed does a whole lot more, <code>sd</code> focuses on doing just one thing and doing it well.</p>
+<p>Some cherry-picked examples, where <code>sd</code> shines:</p>
+<ul>
+<li>Simpler syntax for replacing all occurrences:
+<ul>
+<li>sd: <code>sd before after</code></li>
+<li>sed: <code>sed s/before/after/g</code></li>
+</ul>
+</li>
+<li>Replace newlines with commas:
+<ul>
+<li>sd: <code>sd '\n' ','</code></li>
+<li>sed: <code>sed ':a;N;$!ba;s/\n/,/g'</code></li>
+</ul>
+</li>
+<li>Extracting stuff out of strings containing slashes:
+<ul>
+<li>sd: <code>echo &quot;sample with /path/&quot; | sd '.*(/.*/)' '$1'</code></li>
+<li>sed: use different delimiters every time depending on expression so that the command is not completely unreadable
+<ul>
+<li><code>echo &quot;sample with /path/&quot; | sed -E 's/.*(\\/.*\\/)/\1/g'</code></li>
+<li><code>echo &quot;sample with /path/&quot; | sed -E 's|.*(/.*/)|\1|g'</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>In place modification of files:
+<ul>
+<li>sd: <code>sd before after file.txt</code></li>
+<li>sed: you need to remember to use <code>-e</code> or else some platforms will consider the next argument to be a backup suffix
+<ul>
+<li><code>sed -i -e 's/before/after/g' file.txt</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="cargo-installation">Cargo Installation</h3>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">cargo</span><span> install sd
+</span></code></pre>
+<h3 id="quick-guide">Quick Guide</h3>
+<ol>
+<li><strong>String-literal mode</strong>. By default, expressions are treated as regex. Use <code>-s</code> or <code>--string-mode</code> to disable regex.</li>
+</ol>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#96b5b4;">echo </span><span>&#39;</span><span style="color:#a3be8c;">lots((([]))) of special chars</span><span>&#39; | </span><span style="color:#bf616a;">sd -s </span><span>&#39;</span><span style="color:#a3be8c;">((([])))</span><span>&#39; &#39;&#39;
+</span><span style="color:#bf616a;">lots</span><span> of special chars
+</span></code></pre>
+<ol start="2">
+<li><strong>Find &amp; replace in a file</strong></li>
+</ol>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">sd </span><span>&#39;</span><span style="color:#a3be8c;">window.fetch</span><span>&#39; &#39;</span><span style="color:#a3be8c;">fetch</span><span>&#39; http.js
+</span></code></pre>
+<p>That's it. The file is modified in-place.</p>
+<p>To preview changes:</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">sd -p </span><span>&#39;</span><span style="color:#a3be8c;">window.fetch</span><span>&#39; &#39;</span><span style="color:#a3be8c;">fetch</span><span>&#39; http.js 
+</span></code></pre>
+<ol start="3">
+<li><strong>Capture groups</strong></li>
+</ol>
+<p>Indexed capture groups:</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#96b5b4;">echo </span><span>&#39;</span><span style="color:#a3be8c;">cargo +nightly watch</span><span>&#39; | </span><span style="color:#bf616a;">sd </span><span>&#39;</span><span style="color:#a3be8c;">(\w+)\s+\+(\w+)\s+(\w+)</span><span>&#39; &#39;</span><span style="color:#a3be8c;">cmd: $1, channel: $2, subcmd: $3</span><span>&#39;
+</span><span style="color:#bf616a;">cmd:</span><span> cargo, channel: nightly, subcmd: watch
+</span></code></pre>
+<p>Named capture groups:</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#96b5b4;">echo </span><span>&quot;</span><span style="color:#a3be8c;">123.45</span><span>&quot; | </span><span style="color:#bf616a;">sd </span><span>&#39;</span><span style="color:#a3be8c;">(?P&lt;dollars&gt;\d+)\.(?P&lt;cents&gt;\d+)</span><span>&#39; &#39;</span><span style="color:#a3be8c;">$dollars dollars and $cents cents</span><span>&#39;
+</span><span style="color:#bf616a;">123</span><span> dollars and 45 cents
+</span></code></pre>
+
+
+    </div>
+  </section>
+</body>
+
+</html>
